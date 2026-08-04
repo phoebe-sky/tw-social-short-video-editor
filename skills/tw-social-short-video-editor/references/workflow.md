@@ -27,7 +27,7 @@ Do not treat these observations as an approved EDL.
 
 ## 4. Approval gate
 
-Propose the audience outcome, narrative order, kept material, pacing, duration, visual direction, caption style, and sound direction in 4–8 plain-language sentences. Wait for explicit approval.
+Resolve settings in this order: per-video brief, creator style profile, then skill defaults. Summarize what will be inherited, overridden, and proposed. Then propose the audience outcome, narrative order, kept material, pacing, duration, visual direction, caption style, and sound direction in 4–8 plain-language sentences. Wait for explicit approval.
 
 ## 5. Build the cut
 
