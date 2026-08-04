@@ -12,12 +12,13 @@ Turn a supplied talking-head video into a reviewable vertical short without alte
 1. Read [workflow.md](references/workflow.md) for every edit.
 2. Read [editing-playbook.md](references/editing-playbook.md) before proposing pacing, captions, effects, sound, or a style profile.
 3. Read [project-contract.md](references/project-contract.md) before creating the EDL, preview, QA evidence, or final.
+4. Read [customization.md](references/customization.md) when a creator profile, per-video brief, brand guide, reference style, or customization request is supplied.
 
 ## Execute the workflow
 
 1. Inspect every source with `ffprobe`; record duration, streams, dimensions, frame rate, colour metadata, and decode readability. Never overwrite, rename, move, or delete supplied media.
 2. Obtain file-specific consent before uploading media to any transcription service. Mention the provider and possible cost or quota. Cache word-level verbatim timestamps by source hash. Never commit media, transcripts, API keys, `.env` files, or absolute personal paths.
-3. Confirm the platforms, target duration, language, and style profile. Reuse answers already supplied in the thread. Use `phoebe-v1` only when requested or when the user supplied that profile.
+3. Confirm the platforms, target duration, language, and style profile. When profile forms are supplied, resolve the per-video brief over the creator profile, then over skill defaults. Summarize the resolved settings before proposing the strategy. Reuse answers already supplied in the thread. Use `phoebe-v1` only when requested or when the user supplied that profile.
 4. Organize the transcript, identify the strongest quote and repeated or failed material, then propose a 4–8 sentence editing strategy. Wait for approval before choosing cuts, adding effects, changing speed, adding music or sound, or creating a CTA.
 5. Build a word-aligned EDL with 30–200 ms edge handles. Prefer a strong cold open, one hook-to-story reset, and straight cuts thereafter. Keep the original meaning and never cut inside a word.
 6. Plan variable speed by narrative role. Use `scripts/plan_variable_speed.py` when a target runtime is specified. Keep picture and source audio on the same factor, preserve pitch, and use measured rendered segment durations for every downstream offset.
@@ -30,6 +31,7 @@ Turn a supplied talking-head video into a reviewable vertical short without alte
 - Run `scripts/plan_variable_speed.py --input speed-plan.json` to solve a role-aware speed plan against a target duration.
 - Run `scripts/remap_timeline.py --input timeline.json` to remap captions, effects, and sound cues after per-segment speed changes.
 - Run `scripts/check_safe_zone.py --width 1080 --height 1920 --box name=x1,y1,x2,y2` to validate layout geometry.
+- Copy `assets/creator-style-profile-template.md` for one-time creator preferences and `assets/video-brief-template.md` for per-video overrides. Store completed copies outside the installed Skill so updates do not overwrite them.
 
 Treat script output as planning or QA evidence, not as proof that a video was visually inspected.
 
