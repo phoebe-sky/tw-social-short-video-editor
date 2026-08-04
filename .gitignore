@@ -1,0 +1,15 @@
+.DS_Store
+.env
+.env.*
+*.key
+*.pem
+__pycache__/
+*.py[cod]
+*.mov
+*.mp4
+*.m4a
+*.wav
+*.srt
+transcripts/
+edit/
+qa/
