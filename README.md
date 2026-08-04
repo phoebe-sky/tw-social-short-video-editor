@@ -13,6 +13,16 @@
 - IG 安全區檢查工具
 - 字幕、特效與音效時間軸重算工具
 - 雲端轉錄同意、隱私保護、預覽核准與正式檔 QA
+- 一次填寫的創作者風格設定檔，以及每支影片使用的簡短製作單
+
+## 學員客製化公版
+
+學員可以自由調整字體、字幕顏色、重點字、音效、視覺特效、貼圖、語速與轉場。建議使用兩層設定：
+
+1. 先複製並填寫 [`creator-style-profile-template.md`](skills/tw-social-short-video-editor/assets/creator-style-profile-template.md)，建立自己的固定品牌風格。
+2. 每支影片複製 [`video-brief-template.md`](skills/tw-social-short-video-editor/assets/video-brief-template.md)，只填主題、受眾、片長與本次臨時調整。
+
+套用順序為「單支影片製作單 ＞ 創作者風格設定檔 ＞ Skill 預設」。不確定的欄位可填「請依影片主題建議」。轉錄同意、內容不失真、安全區、預覽核准與正式檔 QA 不會被個人設定關閉。
 
 ## 需求
 
