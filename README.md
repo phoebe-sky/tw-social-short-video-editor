@@ -2,11 +2,16 @@
 
 一個可重複使用的 Codex Skill，把繁體中文口播素材整理成適合 Instagram Reels、YouTube Shorts 與 Facebook Reels 的 9:16 短影音。
 
-它把實際九輪剪輯回饋整理成可移植流程：金句冷開場、語意字幕斷行、分段變速、IG 安全區、精準特效與音效、720p 預覽核准，以及從原始高解析素材重建並驗證 1080×1920 正式版。
+目前版本：`v1.1.0`
+
+它把實際九輪剪輯回饋整理成可移植流程：本機優先與雲端備援轉錄、逐字時間碼快取、金句與重複段落分析、金句冷開場、語意字幕斷行、分段變速、IG 安全區、精準特效與音效、720p 預覽核准，以及從原始高解析素材重建並驗證 1080×1920 正式版。
 
 ## 特色
 
 - 逐字時間碼與完整字詞邊界剪輯
+- 本機 `faster-whisper` 優先；取得單檔同意後才允許 OpenAI `whisper-1` 雲端備援
+- 依來源影片 SHA-256 快取逐字稿，避免重複轉錄與費用
+- 自動產生金句候選、重複內容、贅詞／片段標記與段落重組初稿
 - 55–60 秒分段變速規劃，預設清晰度上限 1.25×
 - 繁體中文字幕語意斷行與雙行排版
 - 可選用 `phoebe-v1` 饅頭黑體風格
@@ -28,9 +33,44 @@
 
 - Codex
 - FFmpeg 與 `ffprobe`
-- 能輸出逐字起訖時間的轉錄方式；使用雲端服務前必須逐檔取得同意
+- 本機轉錄：Python 的 `faster-whisper` 與可用模型
+- 雲端備援：`OPENAI_API_KEY`；每一支來源影片都必須先取得同意
 
 API key、`.env`、原始影片和逐字稿都不應提交到 GitHub。
+
+## 自動轉錄與段落重組
+
+只允許本機轉錄：
+
+```bash
+python skills/tw-social-short-video-editor/scripts/transcribe_video.py input.mov \
+  --provider local \
+  --output edit/transcripts/input.json
+```
+
+本機優先、雲端備援：
+
+```bash
+export OPENAI_API_KEY="your-key"
+python skills/tw-social-short-video-editor/scripts/transcribe_video.py input.mov \
+  --provider auto \
+  --cloud-consent \
+  --output edit/transcripts/input.json
+```
+
+`--cloud-consent` 代表已針對該檔案取得上傳同意，不能預先寫進固定指令或設定檔。雲端路徑只上傳由 FFmpeg 擷取與壓縮的單聲道音訊，不上傳原始影像。
+
+產生 45–50 秒段落初稿：
+
+```bash
+python skills/tw-social-short-video-editor/scripts/analyze_transcript.py \
+  edit/transcripts/input.json \
+  --output edit/story-plan.json \
+  --target-seconds 50 \
+  --max-speed 1.15
+```
+
+分析結果是可審核初稿，不是最終剪輯決策；仍須確認金句前移後沒有改變原意，並逐一播放剪點。
 
 ## 安裝
 

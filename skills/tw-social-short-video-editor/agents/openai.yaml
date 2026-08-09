@@ -1,4 +1,4 @@
 interface:
   display_name: "台灣社群短影音剪輯"
-  short_description: "以逐字時間軸完成直式口播剪輯、字幕、安全區檢查與正式輸出"
-  default_prompt: "Use $tw-social-short-video-editor with my creator style profile and per-video brief to make a polished 9:16 social short."
+  short_description: "自動轉錄口播、挑金句、重組段落並完成直式短影音剪輯"
+  default_prompt: "Use $tw-social-short-video-editor to transcribe my talking-head footage, find strong quotes and repeated material, propose a truthful restructure, and make a polished 9:16 social short."
