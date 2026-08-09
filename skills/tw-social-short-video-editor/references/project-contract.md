@@ -7,6 +7,7 @@ edit/
 ├── project.md
 ├── transcripts/<source-hash>.json
 ├── corrected-transcript.md
+├── story-plan.json
 ├── edl.json
 ├── master.srt
 ├── clips/
