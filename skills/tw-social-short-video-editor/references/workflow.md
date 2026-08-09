@@ -9,21 +9,23 @@
 
 ## 2. Transcribe with consent
 
-- Ask before the first cloud upload of each source file.
-- Name the provider and mention quota or cost.
+- Read `transcription.md` and run `scripts/transcribe_video.py` for each source with speech.
+- Reuse a valid SHA-256 cache before invoking any provider.
+- Prefer installed `faster-whisper`; ask before the first cloud upload of each source file.
+- Name the cloud provider and mention quota or cost before passing `--cloud-consent`.
 - Require word-level start/end timestamps for precise cuts and caption sync.
-- If a local fallback is chosen, label its timing confidence and inspect every edit boundary more closely.
+- Stop rather than infer speech from frames when no timed transcript can be produced.
 
 ## 3. Organize before cutting
 
-Create a packed transcript and mark:
+Run `scripts/analyze_transcript.py`, then read the packed transcript and candidate story plan. Mark:
 
 - strongest self-contained quote;
 - false starts, filler, repeated ideas, and failed takes;
 - story beats and likely target duration;
 - ambiguous moments that need source playback.
 
-Do not treat these observations as an approved EDL.
+Confirm that a moved quote remains truthful in its new position. Do not treat deterministic scores or observations as an approved EDL.
 
 ## 4. Approval gate
 
