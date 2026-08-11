@@ -5,7 +5,7 @@
 Run `scripts/transcribe_video.py` before proposing any talking-head edit. The tool uses this order:
 
 1. Return a valid transcript already cached by the source file SHA-256.
-2. Use an installed `faster-whisper` provider locally.
+2. Use the isolated `faster-whisper` provider locally (or a compatible provider already available to the running Python).
 3. Use OpenAI `whisper-1` only when `OPENAI_API_KEY` exists and the user gave file-specific cloud consent.
 4. Stop when neither provider is available. Never claim to have read speech from frames or waveforms.
 
@@ -22,7 +22,7 @@ python scripts/transcribe_video.py input.mov \
   --output edit/transcripts/source.json
 ```
 
-Add `--cloud-consent` only after file-specific approval. Use `--provider local` to prohibit cloud fallback. Local use requires an installed `faster-whisper` package and model. The tool uses local files only by default; pass `--allow-model-download` only after the user approves downloading the named model.
+Add `--cloud-consent` only after file-specific approval. Use `--provider local` to prohibit cloud fallback. The first-run flow prepares the local package and `small` model after one combined confirmation, and the transcription script automatically uses that isolated Python. The tool uses local files only by default; outside the first-run helper, pass `--allow-model-download` only after the user approves downloading the named model.
 
 The cloud path extracts mono compressed audio, never the original video stream. OpenAI file transcription has a 25 MB input limit, so the tool keeps uploads below 24 MB and splits longer recordings when required. It requests word timestamps from `whisper-1` for edit boundaries.
 The API key is sent only to the fixed official `https://api.openai.com/v1/audio/transcriptions` endpoint; the tool does not accept a custom API base.

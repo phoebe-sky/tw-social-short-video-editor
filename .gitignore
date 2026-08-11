@@ -13,3 +13,7 @@ __pycache__/
 transcripts/
 edit/
 qa/
+.tw-social-short-video-editor/
+runtime/
+models/
+profiles/
