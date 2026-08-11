@@ -7,7 +7,6 @@ import importlib.util
 import json
 import mimetypes
 import os
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -16,6 +15,8 @@ import urllib.error
 import urllib.request
 import uuid
 from pathlib import Path
+
+from runtime_paths import models_dir, resolve_media_binary, runtime_python
 
 
 SCHEMA_VERSION = 1
@@ -58,10 +59,21 @@ def load_cached(cache_dir, source_hash):
 
 
 def check_binary(name):
-    resolved = shutil.which(name)
-    if not resolved:
-        raise RuntimeError(f"missing required executable: {name}")
-    return resolved
+    return resolve_media_binary(name)
+
+
+def maybe_relaunch_in_runtime(requested_provider):
+    """Use the Skill's isolated Python without modifying the user's Python environment."""
+    if requested_provider not in {"auto", "local"}:
+        return
+    if importlib.util.find_spec("faster_whisper") is not None:
+        return
+    python = runtime_python()
+    if not python.is_file() or os.environ.get("TW_SHORT_VIDEO_RUNTIME_ACTIVE") == "1":
+        return
+    environment = os.environ.copy()
+    environment["TW_SHORT_VIDEO_RUNTIME_ACTIVE"] = "1"
+    os.execve(str(python), [str(python), str(Path(__file__).resolve()), *sys.argv[1:]], environment)
 
 
 def probe_duration(ffprobe, source):
@@ -94,10 +106,14 @@ def normalize_segment(item, offset=0.0):
 def transcribe_local(source, model_name, language, prompt, compute_type, allow_model_download):
     from faster_whisper import WhisperModel
 
+    downloaded_model = models_dir() / model_name
+    model_reference = str(downloaded_model) if (downloaded_model / "model.bin").is_file() else model_name
+
     model = WhisperModel(
-        model_name,
+        model_reference,
         device="auto",
         compute_type=compute_type,
+        download_root=str(models_dir()),
         local_files_only=not allow_model_download,
     )
     segments_iter, info = model.transcribe(
@@ -253,6 +269,8 @@ def main():
     parser.add_argument("--timeout", type=int, default=300)
     parser.add_argument("--chunk-seconds", type=int, default=840)
     args = parser.parse_args()
+
+    maybe_relaunch_in_runtime(args.provider)
 
     source = Path(args.source).expanduser().resolve()
     if not source.is_file():

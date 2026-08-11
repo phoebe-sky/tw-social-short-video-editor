@@ -25,4 +25,4 @@ Never let a profile disable source protection, file-specific cloud-upload consen
 
 ## Save and reuse
 
-Keep the completed creator profile outside the installed Skill so upgrades do not overwrite it. Give it a stable filename such as `my-video-style.md`. Copy and fill `assets/creator-style-profile-template.md` once, then copy `assets/video-brief-template.md` for each video. Never commit a student's private media, transcript, credentials, or private brand assets to a public repository.
+Keep the completed creator profile outside the installed Skill so upgrades do not overwrite it. On first use, run `scripts/manage_creator_profile.py status`; if absent, guide the creator through the choices, import an uploaded profile, or initialize safe defaults. Save the completed profile with the helper rather than asking the creator to find an installation folder. Copy `assets/video-brief-template.md` for each video. Never commit a student's private media, transcript, credentials, or private brand assets to a public repository.
